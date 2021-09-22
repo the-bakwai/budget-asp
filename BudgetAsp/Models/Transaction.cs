@@ -1,5 +1,10 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
+using BudgetAsp.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace BudgetAsp.Models
 {
@@ -33,9 +38,11 @@ namespace BudgetAsp.Models
         public long UserId { get; set; }
         public User User { get; set; }
     }
-    
-    public interface ITransactionRepository: IRepository<Transaction>
+
+    public interface ITransactionRepository : IRepository<Transaction>
     {
+        Task<List<Transaction>> GetAllActiveByForAccount(long accountId);
+        Task<TransactionsIndexViewModel> GetTransactionViewModel(long accountId);
     }
 
     public class TransactionRepository : BaseRepository<Transaction>, ITransactionRepository
@@ -44,5 +51,26 @@ namespace BudgetAsp.Models
         {
             Context = context;
         }
+
+        public async Task<List<Transaction>> GetAllActiveByForAccount(long accountId)
+        {
+            return await BudgetContext.Transactions.Where(t => t.AccountId == accountId).OrderByDescending(t => t.Date)
+                .ToListAsync();
+        }
+
+        public async Task<TransactionsIndexViewModel> GetTransactionViewModel(long accountId)
+        {
+            var account = await BudgetContext.Accounts.FindAsync(accountId);
+            var transactions = await BudgetContext.Transactions.Where(t => t.AccountId == accountId)
+                .Include(t => t.Account)
+                .Include(t => t.Category)
+                .Include(t => t.Payee)
+                .Select(t => new TransactionViewModel(t.Id, t.Date, t.Memo, t.Category.Name, t.Payee.Name, t.Amount,
+                    t.Cleared ? "Yes" : "No", t.Reconciled ? "Yes" : "No")).ToListAsync();
+
+            return new TransactionsIndexViewModel(account, transactions);
+        }
+
+        public BudgetContext BudgetContext => Context as BudgetContext;
     }
 }

@@ -1,14 +1,14 @@
 @model List<Transaction>
 
 @{
-    ViewBag.Title = "Categories";
+    ViewBag.Title = "Transactions";
     Layout = "_Layout";
 }
 
 <div class="level">
     <div class="level-left">
         <div class="level-item">
-            <h2 class="title is-2">Categories</h2>
+            <h2 class="title is-2">Transactions for Account </h2>
         </div>
     </div>
     <div class="level-right">
@@ -31,7 +31,13 @@
     <table class="table is-fullwidth">
         <thead>
         <tr>
-            <th>Name</th>
+            <th>Date</th>
+            <th>Memo</th>
+            <th>Category</th>
+            <th>Payee</th>
+            <th>Amount</th>
+            <th>Cleared</th>
+            <th>Reconciled</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -39,7 +45,14 @@
         @foreach (var transaction in Model)
         {
             <tr>
+                <td>@transaction.Date</td>
                 <td>@transaction.Memo</td>
+                <td>@transaction.Category</td>
+                <td>@transaction.Payee</td>
+                <td>@transaction.Amount</td>
+                <td>@transaction.Cleared</td>
+                <td>@transaction.Reconciled</td>
+                <td></td>
                 @* <td><a asp-action="Edit" asp-route-id="@transaction.Id" class="button is-info is-small">Edit</a> | <a asp-action="Delete" asp-route-id="@transaction.Id" class="button is-danger is-small">Delete</a></td> *@
             </tr>
         }
@@ -51,7 +64,7 @@ else
     <section class="hero is-primary">
         <div class="hero-body">
             <p class="title">
-                Add some categories to get started.
+                Add some transactions to this account to get started.
             </p>
         </div>
     </section>

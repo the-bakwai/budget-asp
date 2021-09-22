@@ -1,22 +1,26 @@
+using System.Diagnostics;
 using System.Threading.Tasks;
 using BudgetAsp.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace BudgetAsp.Controllers
 {
     public class TransactionsController : Controller
     {
         private readonly ITransactionRepository _repository;
+        private readonly ILogger<TransactionsController> _logger;
 
-        public TransactionsController(ITransactionRepository repository)
+        public TransactionsController(ITransactionRepository repository, ILogger<TransactionsController> logger)
         {
             _repository = repository;
+            _logger = logger;
         }
         
         // GET
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(long accountId)
         {
-            var transactions = await _repository.GetAllActiveOnly();
+            var transactions = await _repository.GetAllActiveByForAccount(accountId);
             
             return View(transactions);
         }

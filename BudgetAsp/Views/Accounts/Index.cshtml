@@ -39,7 +39,7 @@
         @foreach (var account in Model)
         {
             <tr>
-                <td><a asp-route="transactionsroute" asp-route-account-id="@account.Id">@account.Name</a></td>
+                <td><a asp-controller="Transactions" asp-route-accountId="@account.Id">@account.Name</a></td>
                 <td><a asp-action="Edit" asp-route-id="@account.Id" class="button is-info is-small">Edit</a> | <a asp-action="Delete" asp-route-id="@account.Id" class="button is-danger is-small">Delete</a></td>
             </tr>
         }
