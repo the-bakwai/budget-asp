@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width"/>
+    <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+</head>
+<body>
+<div>
+    <nav class="navbar is-primary" role="navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a asp-controller="Home" asp-action="Index" class="nav-item">
+                    <span class="icon is-large">
+                        <i class="fas fa-2x fa-home"></i>
+                    </span>
+                </a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+            <div class="navbar-menu">
+                <div class="navbar-start">
+                    <a href="#" class="navbar-item">Dashboard</a>
+                    <a asp-controller="Accounts" asp-action="Index" class="navbar-item">Accounts</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a href="#" class="navbar-link">Settings</a>
+                        <div class="navbar-dropdown">
+                            <a asp-controller="Categories" asp-action="Index" class="navbar-item">Categories</a>
+                            <a asp-controller="Payees" asp-action="Index" class="navbar-item">Payees</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="navbar-end">
+                    <div class="navbar-item">
+                        <div class="buttons">
+                            <a href="#" class="button is-link">
+                                <bold>Sign in</bold>
+                            </a>
+                            <a href="#" class="button is-danger">Sign out</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <section class="section">
+        <div class="container">
+            @RenderBody()
+        </div>
+    </section>
+</div>
+<script src="~/js/site.js"></script>
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

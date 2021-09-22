@@ -1,0 +1,59 @@
+@model List<Payee>
+
+@{
+    ViewBag.Title = "Payees";
+    Layout = "_Layout";
+}
+
+<div class="level">
+    <div class="level-left">
+        <div class="level-item">
+            <h2 class="title is-2">Payees</h2>
+        </div>
+    </div>
+    <div class="level-right">
+        <div class="level-item">
+            <a class="button is-primary" asp-action="New">New</a>
+        </div>
+    </div>
+</div>
+
+
+@if (TempData.ContainsKey("Message"))
+{
+    <div class="notification is-info is-light mt-3">
+        <button class="delete"></button>
+        @TempData["Message"]
+    </div>
+}
+
+@if (Model.Any())
+{
+    <table class="table is-fullwidth">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var payee in Model)
+        {
+            <tr>
+                <td>@payee.Name</td>
+                <td><a asp-action="Edit" asp-route-id="@payee.Id" class="button is-info is-small">Edit</a> | <a asp-action="Delete" asp-route-id="@payee.Id" class="button is-danger is-small">Delete</a></td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+else
+{
+    <section class="hero is-primary">
+        <div class="hero-body">
+            <p class="title">
+                Add some payees to get started.
+            </p>
+        </div>
+    </section>
+}
